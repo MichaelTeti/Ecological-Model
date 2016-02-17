@@ -75,34 +75,14 @@ d2=zeros(size(Theta2));
 %grad=[Theta1_grad(:); Theta2_grad(:)];   % Gradient 
 [J grad]=cost(X_norm, Theta1, Theta2, y, m, theta, lambda, d1, d2);
 
-%theta=theta+.1*grad; 
 
-options=optimset('GradObj', 'on', 'MaxIter', 100);
-func=@(theta)cost(X_norm,Theta1,Theta2,y,m,theta,lambda,d1,d2);
-[v fval]=fminunc(func, theta, options);
+options=optimset('GradObj', 'on');
+func=@(theta)cost(X_norm, Theta1, Theta2, y, m, theta, lambda, d1, d2);
+[v fval]=fminunc(@(theta)cost(X_norm, Theta1, Theta2, y, m, theta, lambda, d1, d2), theta, options);
+theta=v;
 
+%Theta1=reshape(theta(1:numel(Theta1)), 50, 4);
+%Theta2=reshape(theta(numel(Theta1)+1:end), 1, 51);
 
-Theta1=reshape(theta(1:numel(Theta1)), 50, 4);
-Theta2=reshape(theta(numel(Theta1)+1:end), 1, 51);
-
-
-
-% predict
-a2test=sigmoid(X_norm*Theta1');
-a2test=[ones(size(a2test, 1), 1) a2test];
-htest=sigmoid(a2test*Theta2');
-
-p=ones(m, 1);
-for j=1:m;
-  if htest(j)=y(j)
-    p(j)=0;
-  end;
-end;
-
-e=sum(p==0);
-percent_correct=(e/m)*100
-
-
-MPCR_Stochastic_Gradient(J, grad);
 
 
