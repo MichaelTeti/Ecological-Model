@@ -1,6 +1,6 @@
 # Modeling Invasive Applesnail Movements Using a Neural Network
 
-Michael Teti
+Michael Teti 
 Date: January 13 2016
 
 ## Background
